@@ -2,8 +2,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:stickereditor/constants_value.dart';
 import 'package:stickereditor/src/model/text_model.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter/gestures.dart';
 
 import 'textstyle_editor.dart';
 
@@ -120,18 +118,29 @@ class _TextEditingBoxState extends State<TextEditingBox> {
                   widget.newText.scale = tap.scale;
                   angle = tap.rotation;
                 }
-                if ((widget.newText.left + tap.delta.dx - deltaOffset.dx) <=
+                if ((widget.newText.left +
+                            tap.focalPointDelta.dx -
+                            deltaOffset.dx) <=
                         widget.boundWidth &&
-                    (widget.newText.left + tap.delta.dx - deltaOffset.dx) > 0) {
-                  widget.newText.left += tap.delta.dx - deltaOffset.dx;
+                    (widget.newText.left +
+                            tap.focalPointDelta.dx -
+                            deltaOffset.dx) >
+                        0) {
+                  widget.newText.left +=
+                      tap.focalPointDelta.dx - deltaOffset.dx;
                 }
-                if ((widget.newText.top + tap.delta.dy - deltaOffset.dy) <
+                if ((widget.newText.top +
+                            tap.focalPointDelta.dy -
+                            deltaOffset.dy) <
                         widget.boundHeight &&
-                    (widget.newText.top + tap.delta.dy - deltaOffset.dy) > 0) {
-                  widget.newText.top += tap.delta.dy - deltaOffset.dy;
+                    (widget.newText.top +
+                            tap.focalPointDelta.dy -
+                            deltaOffset.dy) >
+                        0) {
+                  widget.newText.top += tap.focalPointDelta.dy - deltaOffset.dy;
                 }
 
-                deltaOffset = tap.delta;
+                deltaOffset = tap.focalPointDelta;
               });
             },
             onTap: () {
@@ -234,7 +243,7 @@ class _TextEditingBoxState extends State<TextEditingBox> {
                   left: 0,
                   child: GestureDetector(
                     onScaleUpdate: (detail) {
-                      setState(() => angle = detail.delta.direction);
+                      setState(() => angle = detail.focalPointDelta.direction);
                     },
                     child: widget.isSelected
                         ? Container(
